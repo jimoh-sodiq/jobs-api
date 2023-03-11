@@ -6,6 +6,7 @@ import errorHandlerMiddleware from './middleware/error-handler.js'
 import authRoute from './routes/auth.js'
 import jobsRoute from './routes/jobs.js'
 import connectDB from './db/connect.js'
+import authenticationMiddleware from './middleware/auth.js'
 
 dotenv.config()
 
@@ -16,7 +17,7 @@ app.use(express.json());
 
 // routes
 app.use('/api/v1/auth', authRoute)
-app.use('/api/v1/jobs', jobsRoute)
+app.use('/api/v1/jobs', authenticationMiddleware , jobsRoute)
 
 // always at the end of middleware functions
 app.use(notFoundMiddleware);
