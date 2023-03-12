@@ -11,6 +11,10 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimiter from "express-rate-limit";
 import xss from "xss-clean";
+import swaggerui from 'swagger-ui-express'
+import YAML from 'yamljs';
+
+const swaggerDoc = YAML.load('./swagger.yaml')
 
 dotenv.config();
 
@@ -32,8 +36,9 @@ app.use(helmet());
 app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send('Jobs Api')
+  res.send('<h1> Jimoh Jobs Api</h1><a href="/api-docs">Api Documentation</a>')
 })
+app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDoc))
 
 // routes
 app.use("/api/v1/auth", authRoute);
