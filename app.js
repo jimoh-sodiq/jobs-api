@@ -10,6 +10,7 @@ import authenticationMiddleware from "./middleware/auth.js";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimiter from "express-rate-limit";
+import xss from "xss-clean";
 
 dotenv.config();
 
@@ -25,9 +26,14 @@ app.use(
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   })
 );
+app.use(xss())
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+
+app.get('/', (req, res) => {
+  res.send('Jobs Api')
+})
 
 // routes
 app.use("/api/v1/auth", authRoute);
